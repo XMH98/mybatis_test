@@ -17,4 +17,9 @@ public interface UserDao {
      * 添加用户，返回主键
      */
     public void insert(User user);
+
+    /**
+     * 修改用户
+     */
+    public void updateUser(User user);
 }

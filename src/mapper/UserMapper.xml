@@ -43,4 +43,17 @@
         values
             (#{username},#{password},#{phone},#{address})
     </insert>
+
+    <!--
+        update：执行修改操作
+    -->
+    <update id="updateUser" parameterType="User">
+        update t_user
+        set username=#{username},
+            password=#{password},
+            phone=#{phone},
+            address=#{address}
+        where
+            id=#{id}
+    </update>
 </mapper>
