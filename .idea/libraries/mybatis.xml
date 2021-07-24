@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="mybatis">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../jarPackage/log4j-1.2.14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jarPackage/mybatis-3.2.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jarPackage/mysql-connector-java-8.0.25.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../myBatis/resource/mybatis-3.2.8-source.zip!/mybatis-3.2.8-source/src/main/java" />
+      <root url="jar://$PROJECT_DIR$/../myBatis/resource/mybatis-3.2.8-source.zip!/mybatis-3.2.8-source/src/test/java" />
+    </SOURCES>
+  </library>
+</component>
