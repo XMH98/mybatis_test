@@ -8,3 +8,12 @@ create table t_user(
     phone varchar(30),
     address varchar(100)
 )charset utf8;
+
+create table t_user2(
+   user_id int primary key auto_increment,
+   user_username varchar(50) unique not null ,
+   user_password varchar(100),
+   user_phone varchar(30),
+   user_address varchar(100)
+)charset utf8;
+insert into t_user2 values (null,'admin','123','13200000000','南京');

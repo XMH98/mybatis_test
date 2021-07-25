@@ -10,6 +10,38 @@
 <mapper namespace="dao.UserDao">
 
     <!--
+        resultMap：定义结果映射，将数据库的字段名与对象的属性进行映射
+            id：指定该resultMap的唯一标识符\
+            type：指定映射的对象
+                property：指定映射的属性名
+                column：指定映射的字段名
+    -->
+    <resultMap id="userMap" type="User">
+        <!--
+            id：配置主键映射
+            result：配置其他映射
+        -->
+        <id property="id" column="user_id"/>
+        <result property="username" column="user_username"/>
+        <result property="password" column="user_password"/>
+        <result property="phone" column="user_phone"/>
+        <result property="address" column="user_address"/>
+    </resultMap>
+
+    <!--
+        sql：定义sql代码段，便于复用
+    -->
+    <sql id="userColumn">
+        id,
+        username,
+        password,
+        phone,
+        address
+    </sql>
+
+
+
+    <!--
         insert：用来执行添加操作
             id：表示当前的方法名
                 如果是纯配置文件的方式，没有接口，值可以随便写，但必须唯一
@@ -56,4 +88,186 @@
         where
             id=#{id}
     </update>
+
+    <!--
+        删除操作
+    -->
+    <delete id="deleteById" parameterType="int">
+        delete from t_user
+        where id=#{id}
+    </delete>
+
+    <!--
+        select：执行查询操作
+            resultType：表示返回的结果的类型
+                如果返回的是一个对象，会自动进行映射
+                前提条件：查询结果的字段名必须与对象的属性名相同
+    -->
+    <select id="selectById" parameterType="int" resultType="User">
+        select
+            id,username,password,phone,address
+        from
+            t_user
+        where
+            id=#{id}
+    </select>
+
+    <!--
+        当方法返回值为对象集合时，resultType指定的是集合中元素的类型，而非集合本身
+    -->
+    <select id="selectAll" resultType="User">
+        <!--
+            include：用于引用sql代码段
+                refid：指定要引用sql代码段的id的值
+        -->
+        select
+            <include refid="userColumn"/>
+        from
+            t_user
+    </select>
+
+    <!--
+        使用别名，为查询结果的每个字段指定别名，与对象的属性名相同
+    -->
+    <select id="selectById2" parameterType="int" resultType="User">
+        select
+            user_id id,
+            user_username username,
+            user_password password,
+            user_phone phone,
+            user_address address
+        from
+            t_user2
+        where
+            user_id=#{id}
+    </select>
+
+    <!--
+        resultMap：引用一个resultMap，使用该resultMap进行手动映射
+            其值为已存在的一个resultMap的id值
+    -->
+    <select id="selectById3" parameterType="int" resultMap="userMap">
+        select
+            user_id,
+            user_username,
+            user_password,
+            user_phone,
+            user_address
+        from
+            t_user2
+        where
+            user_id=#{id}
+    </select>
+
+    <!--
+        使用参数的索引：索引从0开始，如#{0}表示第一个参数，#{1}表示第二个参数
+    -->
+    <select id="selectByUsernameAndPassword" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where username=#{0} and password=#{1}
+    </select>
+
+    <!--
+        使用@Param()定义的名称，来引用指定的参数
+    -->
+    <select id="selectByUsernameAndPassword2" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where username=#{username} and password=#{password}
+    </select>
+
+    <!--
+        将多个参数封装成一个对象，然后传递该对象
+    -->
+    <select id="selectByUsernameAndPassword3" parameterType="User" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where username=#{username} and password=#{password}
+    </select>
+
+    <!--
+        将多个参数封装成一个Map集合，在#{}占位符中根据key获取value
+    -->
+    <select id="selectByUsernameAndPassword4" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where username=#{username} and password=#{password}
+    </select>
+
+    <!--
+        手动拼接模糊查询的字段
+    -->
+    <select id="selectByUsername" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where username like #{username}
+    </select>
+
+    <!--
+        使用bind对参数额外的处理
+    -->
+    <select id="selectByUsername2" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        <!--
+            bind：创建一个变量，并为其绑定值
+                name：指定变量名
+                value：指定要绑定的值，可以使用_parameter获取当前方法的参数
+        -->
+        <bind name="abc" value="'%'+_parameter+'%'"/>
+        where username like #{abc}
+    </select>
+
+    <!--
+        if：用来进行条件判断、
+            test：判断表达式的值，如果为true，则拼接sql片段，否则不拼接
+    -->
+    <select id="selectByParams" parameterType="User" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where 1=1
+        <if test="username != null and username != ''">
+            and username=#{username}
+        </if>
+        <if test="password != null and password != ''">
+            and password=#{password}
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone=#{phone}
+        </if>
+        <if test="address != null and address != ''">
+            and address=#{address}
+        </if>
+    </select>
+
+    <!--
+        choose：用来进行条件的选择
+            when：
+                test：判断表达式的值，如果为true，则拼接该sql片段，此时不再拼接其他when
+            otherwise：当所有when都不成立时，则拼接该sql片段
+    -->
+    <select id="selectByParams2" parameterType="User" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where
+        <choose>
+            <when test="username != null and username != ''">
+                username=#{username}
+            </when>
+            <when test="password != null and password != ''">
+                password=#{password}
+            </when>
+            <when test="phone != null and phone != ''">
+                phone=#{phone}
+            </when>
+            <when test="address != null and address != ''">
+                address=#{address}
+            </when>
+            <otherwise>
+                1=1
+            </otherwise>
+        </choose>
+    </select>
+
 </mapper>

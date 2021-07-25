@@ -9,10 +9,10 @@ import java.util.List;
 
 /**
  * Author: 徐明皓
- * Date: 2021-07-24 13:08
+ * Date: 2021-07-24 22:11
  * Description: <描述>
  */
-public class Test03 {
+public class Test05 {
     public static void main(String[] args) {
         SqlSession session = null;
         try {
@@ -20,20 +20,15 @@ public class Test03 {
 
             UserDao userDao = session.getMapper(UserDao.class);
 
-            //User user = new User();
-            //user.setId(5);
-            //user.setUsername("汤姆");
-            //user.setPassword("666");
-            //user.setPhone("13200000000");
-            //user.setAddress("南京");
-            //userDao.updateUser(user);
+            User userParams = new User();
+            userParams.setUsername("tom");
+            userParams.setPassword("111");
+            userParams.setPhone("110");
+            userParams.setAddress("苏州");
 
-            //userDao.deleteById(5);
+            //List<User> users = userDao.selectByParams(userParams);
 
-            //User user = userDao.selectById(8);
-            //System.out.println(user);
-
-            List<User> users = userDao.selectAll();
+            List<User> users = userDao.selectByParams2(userParams);
             System.out.println(users);
 
             session.commit();
