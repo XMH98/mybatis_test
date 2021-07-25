@@ -15,4 +15,6 @@ public interface EmpDao {
 
     public List<Emp> selectAll();
 
+
+
 }

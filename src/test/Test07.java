@@ -2,6 +2,7 @@ package test;
 
 import dao.DeptDao;
 import dao.EmpDao;
+import entity.Dept;
 import entity.Emp;
 import org.apache.ibatis.session.SqlSession;
 import util.MyBatisUtil;
@@ -19,10 +20,13 @@ public class Test07 {
         try {
             session = MyBatisUtil.getSession();
 
-            EmpDao empDao = session.getMapper(EmpDao.class);
+            //EmpDao empDao = session.getMapper(EmpDao.class);
+            //List<Emp> emps = empDao.selectAll();
+            //System.out.println(emps);
 
-            List<Emp> emps = empDao.selectAll();
-            System.out.println(emps);
+            DeptDao deptDao = session.getMapper(DeptDao.class);
+            List<Dept> depts = deptDao.selectAll();
+            System.out.println(depts);
 
             session.commit();
         } catch (Exception e) {
