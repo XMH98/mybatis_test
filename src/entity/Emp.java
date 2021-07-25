@@ -53,4 +53,14 @@ public class Emp implements Serializable {
     public void setDept(Dept dept) {
         this.dept = dept;
     }
+
+    @Override
+    public String toString() {
+        return "Emp{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", dept=" + dept +
+                '}'+'\n';
+    }
 }

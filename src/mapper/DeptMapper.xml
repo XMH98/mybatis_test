@@ -3,11 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.DeptDao">
 
+    <resultMap id="deptMapper" type="dept">
+        <id property="id" column="deptId"/>
+        <result property="name" column="deptName"/>
+    </resultMap>
+
     <insert id="insertDept" parameterType="Dept" useGeneratedKeys="true" keyProperty="id">
         insert into t_dept
             (name)
         values
             (#{name})
     </insert>
+
+    <select id="selectById" parameterType="int" resultType="dept">
+        select id,name
+        from t_dept
+        where id=#{id}
+    </select>
 
 </mapper>

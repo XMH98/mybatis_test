@@ -11,4 +11,6 @@ public interface DeptDao {
 
     public void insertDept(Dept dept);
 
+    public Dept selectById(Integer id);
+
 }

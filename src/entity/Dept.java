@@ -26,4 +26,11 @@ public class Dept implements Serializable {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
