@@ -70,6 +70,8 @@
                 resource属性：指定映射文件的路径，写的是相对于src的路径，使用的是正斜杠分隔
         -->
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/DeptMapper.xml"/>
+        <mapper resource="mapper/EmpMapper.xml"/>
     </mappers>
 
 

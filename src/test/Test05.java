@@ -5,6 +5,8 @@ import entity.User;
 import org.apache.ibatis.session.SqlSession;
 import util.MyBatisUtil;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,15 +23,24 @@ public class Test05 {
             UserDao userDao = session.getMapper(UserDao.class);
 
             User userParams = new User();
-            userParams.setUsername("tom");
-            userParams.setPassword("111");
-            userParams.setPhone("110");
-            userParams.setAddress("苏州");
+            //userParams.setId(8);
+            userParams.setUsername("hello");
+            //userParams.setPassword("111");
+            //userParams.setPhone("110");
+            userParams.setAddress("南京");
 
             //List<User> users = userDao.selectByParams(userParams);
 
-            List<User> users = userDao.selectByParams2(userParams);
+            //List<User> users = userDao.selectByParams2(userParams);
+
+            //List<User> users = userDao.selectByParams4(userParams);
+            //System.out.println(users);
+
+            //userDao.updateUser2(userParams);
+
+            List<User> users = userDao.selectByIds(Arrays.asList(2, 8, 10));
             System.out.println(users);
+
 
             session.commit();
         } catch (Exception e) {

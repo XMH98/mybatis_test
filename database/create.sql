@@ -17,3 +17,16 @@ create table t_user2(
    user_address varchar(100)
 )charset utf8;
 insert into t_user2 values (null,'admin','123','13200000000','南京');
+
+create table t_dept(
+    id int primary key auto_increment,
+    name varchar(50)
+)charset utf8;
+
+create table t_emp(
+    id int primary key auto_increment,
+    name varchar(50),
+    salary double,
+    dept_id int,
+    foreign key (dept_id) references t_dept(id)
+)charset utf8;

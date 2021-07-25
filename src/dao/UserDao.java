@@ -59,4 +59,11 @@ public interface UserDao {
 
     public List<User> selectByParams2(User user);
 
+    public List<User> selectByParams3(User user);
+
+    public List<User> selectByParams4(User user);
+
+    public void updateUser2(User user);
+
+    public List<User> selectByIds(List<Integer> ids);
 }

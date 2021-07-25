@@ -270,4 +270,97 @@
         </choose>
     </select>
 
+    <!--
+        where标签：一般结合if或者choose一起使用
+            作用：1.添加where关键字
+                 2.删除sql片段的第一个连接关键字，如and、or等
+                 3.如果没有拼接任何sql片段，则不会添加where关键字
+    -->
+    <select id="selectByParams3" parameterType="User" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        <where>
+            <if test="username != null and username != ''">
+                and username=#{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password=#{password}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone=#{phone}
+            </if>
+            <if test="address != null and address != ''">
+                and address=#{address}
+            </if>
+        </where>
+    </select>
+
+    <!--
+        set标签：一般结合if或choose一起使用
+            作用：1.添加set关键字
+                 2.删除sql片段末尾的逗号
+    -->
+    <update id="updateUser2" parameterType="User">
+        update t_user
+        <set>
+            <if test="username != null and username != ''">
+                username=#{username},
+            </if>
+            <if test="password != null and password != ''">
+                password=#{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone=#{phone},
+            </if>
+            <if test="address != null and address != ''">
+                address=#{address},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--
+        trim标签：
+            作用：1.在开头或末尾添加特定的前缀prefix或后缀suffix
+                 2.删除开头prefixOverrides或末尾suffixOverrides的特定内容
+    -->
+    <select id="selectByParams4" parameterType="User" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="username != null and username != ''">
+                and username=#{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password=#{password}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone=#{phone}
+            </if>
+            <if test="address != null and address != ''">
+                and address=#{address}
+            </if>
+        </trim>
+    </select>
+
+
+    <!--
+        foreach标签：当参数是集合时，用来对集合进行遍历，一般用在in条件中
+            collection属性：要遍历集合，默认List集合指定为list，Map集合指定为map，数组指定为array
+            item属性：迭代变量
+            open属性：遍历前添加的字符串
+            close属性：遍历后添加的字符串
+            separator属性：元素分隔符
+            index属性：当前迭代元素的索引
+    -->
+    <select id="selectByIds" resultType="User">
+        select <include refid="userColumn"/>
+        from t_user
+        where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
 </mapper>
